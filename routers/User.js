@@ -10,7 +10,7 @@ const JWT_SECRET = "your_jwt_secret"; // Replace with your own secret key
 // Register a user
 router.post("/register", async (req, res) => {
   try {
-    const { firstName, lastName, contactNumber, year, email, password, rating } = req.body;
+    const { firstName, lastName, contactNumber, year, email, password} = req.body;
 
     // Check for missing fields
     if (!firstName || !lastName || !contactNumber || !year || !email || !password) {
@@ -38,7 +38,6 @@ router.post("/register", async (req, res) => {
       year,
       email,
       password: hashedPassword,
-      rating,
     });
 
     // Save user to database
@@ -82,6 +81,54 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/updateProfile", async (req, res) => {
+  try {
+    const { email, ...updateFields } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: "Email is required to update profile." });
+    }
+
+    console.log("Update request received for:", email);
+
+    // Find the user by email
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      console.log("User not found:", email);
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Update only provided fields
+    for (const key in updateFields) {
+      if (updateFields.hasOwnProperty(key)) {
+        user[key] = updateFields[key];
+      }
+    }
+
+    // Save updated user
+    await user.save();
+    console.log("User profile updated:", email);
+
+    res.status(200).json({
+      message: "User profile updated successfully",
+      updatedUser: {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        contactNumber: user.contactNumber,
+        year: user.year,
+        email: user.email,
+        rating: user.rating,
+        college: user.college,
+        codingProfiles: user.codingProfiles
+      }
+    });
+
+  } catch (error) {
+    console.error("Error updating user profile:", error.message);
+    res.status(500).json({ message: "Error updating profile", error: error.message });
+  }
+});
 
 // Logout a user
 router.post("/logout", (req, res) => {

@@ -39,7 +39,23 @@ const userSchema = new mongoose.Schema({
         default: 0,
         min: 0,
         max: 5
-    }
+    },
+    college: {
+        type: String,
+        required: true
+    },
+    codingProfiles: [
+        {
+            platform: {
+                type: String,
+                required: true
+            },
+            url: {
+                type: String,
+                required: true
+            }
+        }
+    ]
 }, {
     timestamps: true
 });

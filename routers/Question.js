@@ -81,7 +81,7 @@ router.post("/create", async (req, res) => {
   }
 });*/
 router.post("/create", async (req, res) => {
-  const { email, title, description, tags,imageUrl } = req.body;
+  const { email, title, description, tags,imageUrl, apiAnswer } = req.body;
 
   if (!email) {
     return res.status(400).send({ message: "Email is required" });
@@ -116,6 +116,7 @@ router.post("/create", async (req, res) => {
       postedBy: email, // Use the email from the request body
       tags,
       imageUrl,
+      apiAnswer,
       name: `${firstName} ${lastName}`, // Store full name in the question
     });
 
