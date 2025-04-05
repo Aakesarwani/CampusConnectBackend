@@ -14,6 +14,7 @@ db.connect();
 app.use(bodyParser.json({ limit: "500mb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "500mb" }));
 
+app.use(cors());
 app.use(express.json());
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -33,7 +34,7 @@ app.get("*", (req, res) => {
   }
 });*/
 
-app.use(cors());
+
 
 app.listen(3000, () => {
   console.log(`Stack Overflow Clone API is running on PORT No- 3000`);
