@@ -10,10 +10,10 @@ const JWT_SECRET = "your_jwt_secret"; // Replace with your own secret key
 // Register a user
 router.post("/register", async (req, res) => {
   try {
-    const { firstName, lastName, contactNumber, year, email, password} = req.body;
+    const { firstName, lastName, contactNumber, year, email, password , college} = req.body;
 
     // Check for missing fields
-    if (!firstName || !lastName || !contactNumber || !year || !email || !password) {
+    if (!firstName || !lastName || !contactNumber || !year || !email || !password || !college) {
       return res.status(400).json({ message: "Please provide all required fields." });
     }
 
@@ -38,6 +38,7 @@ router.post("/register", async (req, res) => {
       year,
       email,
       password: hashedPassword,
+      ...(college && { college })
     });
 
     // Save user to database
