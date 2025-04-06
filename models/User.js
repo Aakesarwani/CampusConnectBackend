@@ -42,17 +42,17 @@ const userSchema = new mongoose.Schema({
     },
     college: {
         type: String,
-        required: true
+        default :""
     },
     codingProfiles: [
         {
             platform: {
-                type: String,
-                required: true
+                type: String
+                //required: true
             },
             url: {
-                type: String,
-                required: true
+                type: String
+                //required: true
             }
         }
     ]
